@@ -17,32 +17,51 @@ let questions = [
   "在 15 歲之前，如果小孩子就表現出嚴重的虐待動物、偷竊、或校園欺凌，醫學上稱為什麼證據？",
   "這群人做決定往往基於即時的衝動或刺激，完全不考慮負面後果，這在臨床上稱為什麼表現？",
   "如果一個人的壞行為「只出現在思覺失調症（精神分裂）發作的時候」，醫生還能診斷他是反社會人格嗎？",
-  "鄭捷在犯案被抓到後，表現出什麼樣的驚人態度，最符合反社會人格「缺乏同理與悔意」的特徵？",
+  "鄭捷在犯案被抓到後，表現出什麼樣的驚人態度，最符合反社會人格的特徵？",
   "研究發現，ASPD 患者的反社會行為，通常到了幾歲之後就會有所緩和？",
   "鄭捷「隨機挑選無辜乘客，毫無憐憫」的殘酷行為，具體對應到反社會人格的三大核心特徵中的哪一項？",
-  "生理學研究提到，ASPD 患者因為大腦結構與神經系統的異常，對懲罰和危險「免疫」。簡報中提到，這主要是因為他們缺乏什麼心理狀態？",
-  "哪一種跟神經調控有關的「基因變異（特別是低活動性變異）」，被發現跟男性的攻擊行為有密切關係？",
-  "大腦中哪一個皮層如果出現缺陷（灰質比正常人少了約 11%），會嚴重影響人的理智、執行功能與共情能力？",
-  "大腦中負責處理情緒與恐懼的哪一個構造如果「過度反應」，會與個體的衝動及攻擊性閾值降低有關？"
+  "若因為一段關係已經出現失眠、焦慮或被操控感，簡報建議可以找哪些專業資源求助？",
+  "當身邊的人出現反社會特質並讓你感到威脅時，簡報指出最先要放在第一位的是什麼？",
+  "為了避免在人際相處中留下把柄，簡報建議與可能具反社會特質的人相處時，日常該怎麼做？",
+  "面對可能具有反社會傾向的人，為什麼簡報強烈反對去「拯救」或「感化」他們？"
 ];
 
 let answers = [
-  "第 1 題解析：ASPD：  其完整的英文醫學名稱為 Antisocial Personality Disorder",
-  "第 2 題解析：逆社會型人格障礙症 / 社會變態 / 心理變態",
-  "第 3 題解析：男生  （男性發生率遠高於女性）",
-  "第 4 題解析：18 歲  「此診斷必須年滿 18 歲」。因為兒童與青少年的大腦、個性和道德認知還處於發育階段，行為可能受到叛逆期或環境的暫時影響",
-  "第 5 題解析：它是一種「以頻繁違反社會行為規範、藐視並侵犯他人權利」為主要特徵的人格障礙症。這意味著他們的「冷血」不是單純指心情冷淡，而是表現在具體去破壞社會規則、並造成他人身體或權益實質受損的長期行為模式。",
-  "第 6 題解析：DSM-5 手冊將反社會人格的表現歸納為 7 大特徵（包括說謊、衝動、不負責任、缺乏悔意等），臨床醫生在診斷時，不需要患者 7 項完全具備，只要在長期觀察下「符合其中至少 3 項（含以上）」，即達到了診斷的量化門檻。",
-  "第 7 題解析：「品行障礙」。  這是診斷 ASPD 的必要條件之一，必須有證據顯示個體在 15 歲之前就已經出現長期、反覆違反他人基本權利或社會規範的嚴重行為問題",
-  "第 8 題解析：脫抑制（Disinhibition）  這指的是個體缺乏事前規劃與自我克制的能力，高度依賴即時的衝動、當下的情感或外界刺激來做出應對，明知道事後會有嚴重的懲罰或負面後果也無法踩煞車。",
-  "第 9 題解析：「排除條款」：反社會行為「並非僅出現在思覺失調症或雙相障礙的發作期中」。因為思覺失調症發作時，患者可能因為幻聽或妄想（例如以為別人在害他）才做出攻擊行為，這屬於精神病症狀，而不是他本身根深蒂固的「反社會人格特質」",
-  "第 10 題解析：極度冷漠，毫無驚慌與歉意。   完全體現了 ASPD 核心病理中「冷酷、缺乏同理、缺乏懊悔」的特徵。",
-  "第 11 題解析：30 歲或 40 歲之後（中年之後）。   大腦可能更為成熟，或體力與荷爾蒙改變，其外顯的、暴力的反社會行為通常會逐漸有所「緩和」。",
-  "第 12 題解析：鄭捷在捷運車廂內犯案時，面對完全不認識、沒有任何仇恨的無辜大眾，依然能痛下殺手且毫無憐憫，這正是「缺乏同理心」在現實犯罪中最極端的體現。",
-  "第 13 題解析：缺乏恐懼感。  因為大腦與身體不會發出害怕的警報，所以他們很難從被處罰的痛苦中吸取教訓，這也是傳統法律懲罰對他們往往無效的原因。",
-  "第 14 題解析：「MAO-A 基因」  是負責調節神經遞質（如血清素、多巴胺）代謝的關鍵。科學研究發現，如果帶有「低活動性」的 MAO-A 基因變異（在坊間常被稱為戰士基因），個體在受到環境壓力時，觸發男性暴力與攻擊行為的機率會大幅提升。",
-  "第 15 題解析：前額葉皮層（Prefrontal Cortex）。  由於前額葉是大腦的「理性總指揮官」，負責控制衝動、權衡利弊、道德判斷以及理解他人痛苦（共情能力），這個區域受損會直接導致人變得衝動且冷血。",
-  "第 16 題解析：杏仁核（Amygdala）。  杏仁核主要負責處理強烈情緒（如恐懼、憤怒）。當杏仁核「過度反應」時，個體對外界刺激的敏感度會失衡，導致衝動控制變差，極易因為微小的刺激就踩到憤怒的開關（攻擊性閾值降低）。"
+  "ASPD：  其完整的英文醫學名稱為 Antisocial Personality Disorder",
+  "逆社會型人格障礙症 / 社會變態 / 心理變態",
+  "男生  （男性發生率遠高於女性）",
+  "18 歲  「此診斷必須年滿 18 歲」。因為兒童與青少年的大腦、個性和道德認知還處於發育階段，行為可能受到叛逆期或環境的暫時影響",
+  "它是一種「以頻繁違反社會行為規範、藐視並侵犯他人權利」為主要特徵的人格障礙症。這意味著他們的「冷血」不是單純指心情冷淡，而是表現在具體去破壞社會規則、並造成他人身體或權益實質受損的長期行為模式。",
+  "DSM-5 手冊將反社會人格的表現歸納為 7 大特徵（包括說謊、衝動、不負責任、缺乏悔意等），臨床醫生在診斷時，不需要患者 7 項完全具備，只要在長期觀察下「符合其中至少 3 項（含以上）」，即達到了診斷的量化門檻。",
+  "「品行障礙」。  這是診斷 ASPD 的必要條件之一，必須有證據顯示個體在 15 歲之前就已經出現長期、反覆違反他人基本權利或社會規範的嚴重行為問題",
+  "脫抑制（Disinhibition）  這指的是個體缺乏事前規劃與自我克制的能力，高度依賴即時的衝動、當下的情感或外界刺激來做出應對，明知道事後會有嚴重的懲罰或負面後果也無法踩煞車。",
+  "「排除條款」：反社會行為「並非僅出現在思覺失調症或雙相障礙的發作期中」。因為思覺失調症發作時，患者可能因為幻聽或妄想（例如以為別人在害他）才做出攻擊行為，這屬於精神病症狀，而不是他本身根深蒂固的「反社會人格特質」",
+  "極度冷漠，毫無驚慌與歉意。   完全體現了 ASPD 核心病理中「冷酷、缺乏同理、缺乏懊悔」的特徵。",
+  "30 歲或 40 歲之後（中年之後）。   大腦可能更為成熟，或體力與荷爾蒙改變，其外顯的、暴力的反社會行為通常會逐漸有所「緩和」。",
+  "鄭捷在捷運車廂內犯案時，面對完全不認識、沒有任何仇恨的無辜大眾，依然能痛下殺手且毫無憐憫，這正是「缺乏同理心」在現實犯罪中最極端的體現。",
+  "當單靠個人無法應對人際壓力，且已經影響到身心健康時，簡報指出通報學校輔導室 或主動尋求心理、社工等專業介入才是正確的解決路徑。",
+  "簡報強調「先看安全」。如果對方出現威脅、暴力或跟蹤，必須先把自身安全放第一，並盡快尋求警方、成人或社區資源協助。",
+  "對方的言語可能充滿操控性，因此簡報建議少透露私生活，並把最近發生的對話、日期或截圖記錄下來作為自我保護。",
+  "真正的診斷需要專業評估，一般人缺乏專業能力，若盲目替對方收拾後果或試圖改變對方，反而容易讓自己陷入高風險的心理泥淖中。"
+];
+
+let shortAnswers = [
+  "ASPD",
+  "心理變態 / 社會變態",
+  "男性較多",
+  "需年滿 18 歲",
+  "藐視並侵犯他人權利",
+  "符合至少 3 項",
+  "品行障礙 (CD)",
+  "脫抑制 (Disinhibition)",
+  "排除思覺失調發作",
+  "冷漠、缺乏同理與悔意",
+  "30 - 40 歲後緩和",
+  "缺乏同理心",
+  "心理師、社工、學校輔導室或職場資源。",
+  "人身安全。",
+  "少講私事，重要事情盡量留紀錄。",
+  "因為這通常會把自己拖進去。"
 ];
 
 // 視窗狀態：null | 'question' | 'analysis'
@@ -56,13 +75,6 @@ const LINES = [
   [0,5,10,15],[3,6,9,12]
 ];
 
-let currentLuckyNumber = "?";
-let spinningCard = null;
-let spinTicks = 0;
-let spinMax = 20;
-let numberPool = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
-let drawnHistory = [];
-
 let bingoLines = 0;
 let bingoIndexes = new Set();
 
@@ -74,7 +86,7 @@ let closeBtnH = 36;
 let people = [
   "第一組","第二組","第三組","第四組","第五組","第六組","第七組",
   "第八組","第九組","第十組","第十一組","第十二組","第十三組","第十四組"
-];
+].filter(p => p !== "第十組"); // 排除第十組
 let peoplePool = [];
 let drawnPeople = [];
 let showPersonPopup = false;
@@ -90,6 +102,19 @@ let personBtnH = 36;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textFont('sans-serif');
+
+  // 隨機打亂題目與答案的順序，同時保持兩者對應關係
+  let combined = [];
+  for (let i = 0; i < questions.length; i++) {
+    combined.push({ q: questions[i], a: answers[i], sa: shortAnswers[i] });
+  }
+  shuffle(combined, true); // 使用 p5.js 內建函數隨機打亂
+
+  for (let i = 0; i < questions.length; i++) {
+    questions[i] = combined[i].q;
+    answers[i] = combined[i].a;
+    shortAnswers[i] = combined[i].sa;
+  }
 
   let totalWidth  = cols * cardW + (cols - 1) * spacingX;
   let totalHeight = rows * cardH + (rows - 1) * spacingY;
@@ -131,9 +156,6 @@ function draw() {
   fill(160);
   text(`已翻開 ${flippedCount} / 16　|　BINGO ${bingoLines} 條`, width / 2, 50);
 
-  // 抽籤歷史
-  drawDrawnHistory();
-
   // BINGO 提示條
   if (bingoLines > 0) {
     fill(255);
@@ -169,26 +191,6 @@ function draw() {
   // 抽人視窗
   if (showPersonPopup) drawPersonPopup();
 
-  // 抽籤動畫
-  if (spinningCard) {
-    spinTicks++;
-    currentLuckyNumber = int(random(1, 17));
-    if (spinTicks >= spinMax) {
-      spinTicks = 0;
-      if (numberPool.length > 0) {
-        let idx = int(random(numberPool.length));
-        let result = numberPool.splice(idx, 1)[0];
-        spinningCard.luckyNumber = result;
-        spinningCard.isMarked = true;
-        drawnHistory.push(result);
-        updateBingo();
-      } else {
-        spinningCard.luckyNumber = "!";
-      }
-      spinningCard = null;
-    }
-  }
-
   // 抽人動畫
   if (isDrawingPerson) {
     personSpinTicks++;
@@ -212,9 +214,9 @@ function mousePressed() {
     let btnX = width / 2 - 70;
     let btnY = height / 2 + 140;
     if (mouseX > btnX && mouseX < btnX + 140 && mouseY > btnY && mouseY < btnY + 45) {
-      if (popupCard) popupCard.isAnswered = true;
-      spinningCard = popupCard;
-      spinTicks = 0;
+      if (popupCard) {
+        popupCard.showAnalysis = true; // 關閉解析後，標記此卡片以後要顯示解析
+      }
       popupState = null;
       popupCard = null;
       userAnswer = null;
@@ -289,11 +291,18 @@ function mousePressed() {
   // 卡片點擊
   for (let card of cards) {
     if (card.isClicked(mouseX, mouseY)) {
-      if (!card.isFlipped) {
+      if (!card.isFlipped) { // 如果卡片未翻開
         card.flip();
-      } else {
+        card.isMarked = true; // 翻開即標記為已完成 (計算 BINGO)
+        updateBingo();
+      } else if (!card.showAnalysis) { 
+        // 如果卡片已翻開但還沒看過解析，第二次點擊顯示放大題目視窗
         popupCard = card;
         popupState = 'question';
+      } else { 
+        // 如果已經看過解析了，之後點擊則直接顯示解析視窗
+        popupCard = card;
+        popupState = 'analysis';
       }
       break;
     }
@@ -309,22 +318,6 @@ function updateBingo() {
       for (let i of line) bingoIndexes.add(i);
     }
   }
-}
-
-// ── 抽籤歷史 ──────────────────────────────────
-function drawDrawnHistory() {
-  push();
-  textAlign(LEFT, TOP);
-  textSize(13);
-  fill(120);
-  text("已抽號碼", 30, 80);
-  fill(255);
-  textStyle(BOLD);
-  for (let i = 0; i < drawnHistory.length; i++) {
-    text(drawnHistory[i], 30, 105 + i * 22);
-  }
-  textStyle(NORMAL);
-  pop();
 }
 
 // ── 題目放大視窗 ──────────────────────────────
@@ -453,13 +446,24 @@ function drawAnalysisPopup() {
   strokeWeight(1);
   line(px + 30, py + 90, px + popW - 30, py + 90);
 
-  // 解析內容
+  // 1. 簡短答案 (放大顯示重點)
   noStroke();
-  fill(220);
-  textSize(24); // 解析視窗字體放大
-  textAlign(CENTER, CENTER);
+  fill(255, 255, 150); // 使用亮黃色突顯關鍵字
+  textAlign(CENTER, TOP);
+  textSize(32);        // 稍微縮小字體以預留換行空間
+  textStyle(BOLD);
   textWrap(CHAR);
-  text(answers[popupCard.index], px + 40, py + 90, popW - 80, popH - 180);
+  // 顯示簡短解析
+  text(shortAnswers[popupCard.index], px + 40, py + 105, popW - 80);
+  textStyle(NORMAL);
+
+  // 2. 詳細解析內容 (在下面做進一步解釋)
+  fill(220);           // 淺灰色
+  textSize(18);        // 微調解釋字體大小
+  textAlign(CENTER, TOP);
+  textWrap(CHAR);
+  // 下移起始位置至 215，避免與上方的簡答重疊
+  text(answers[popupCard.index], px + 50, py + 215, popW - 100, popH - 310);
 
   // 關閉按鈕
   let btnX = width / 2 - 70;
@@ -593,9 +597,8 @@ class Card {
     this.content = content;
     this.index = index;
     this.isFlipped = false;
-    this.isAnswered = false;
+    this.showAnalysis = false; // 新增：是否已看過解析
     this.isMarked = false;
-    this.luckyNumber = null;
     this.hovered = false;
   }
 
@@ -608,8 +611,8 @@ class Card {
 
     // 背景與邊框
     if (this.isMarked) {
-      // 抽中：白底
-      fill(isBingo ? 255 : 200);
+      // 已標記：亮黃色底 (若連成 BINGO 則為純白)
+      fill(isBingo ? 255 : color(255, 255, 200)); 
       stroke(255);
       strokeWeight(isBingo ? 3 : 2);
     } else if (this.isFlipped) {
@@ -637,35 +640,27 @@ class Card {
     textStyle(NORMAL);
 
     if (this.isFlipped) {
-      let displayBody = this.isAnswered ? answers[this.index] : this.content;
-
-      if (this.isMarked) {
-        // 抽中後文字用黑色
-        fill(0);
-      } else {
-        fill(isBingo ? 255 : 210);
-      }
-
+      // 顯示題號 (作為抽到的數字)
+      fill(this.isMarked ? 0 : 80);
       textAlign(CENTER, CENTER);
-      textSize(this.isAnswered ? 14 : 18); // 卡牌內的字體放大
+      textSize(36);
       textStyle(BOLD);
-      textWrap(CHAR);
-      text(displayBody, this.x + 12, this.y + 8, this.w - 24, this.h - 35);
+      text(this.index + 1, this.x + this.w / 2, this.y + this.h / 2 - 20);
       textStyle(NORMAL);
 
-      // 右下「點擊查看」提示
-      if (!this.isMarked) {
-        fill(isBingo ? 255 : 60);
-        rect(this.x + this.w - 68, this.y + this.h - 22, 60, 16, 4);
-        fill(isBingo ? 0 : 160);
-        textSize(9);
-        textAlign(CENTER, CENTER);
-        textWrap(CHAR);
-        text("點擊查看 ▶", this.x + this.w - 38, this.y + this.h - 14);
-      }
+      // 顯示文字內容：若看過解析則顯示簡短答案，否則顯示題目
+      let displayBody = this.showAnalysis ? shortAnswers[this.index] : this.content;
+      fill(this.isMarked ? 0 : 210);
+      textAlign(CENTER, TOP);
+      textSize(this.showAnalysis ? 18 : 14); // 簡短解析可以用大一點的字，題目用 14
+      textWrap(CHAR);
+      text(displayBody, this.x + 12, this.y + this.h / 2 + 5, this.w - 24, this.h / 2 - 10);
+      textStyle(NORMAL);
+
+      // 移除右下「點擊查看」提示，因為翻開即已標記並顯示解析
 
       // BINGO 標籤
-      if (isBingo && !this.isMarked) {
+      if (isBingo) { // 只要是 BINGO 線上的卡片就顯示
         fill(255);
         rect(this.x + 8, this.y + this.h - 22, 44, 16, 4);
         fill(0);
@@ -673,7 +668,7 @@ class Card {
         text("BINGO", this.x + 30, this.y + this.h - 14);
       }
 
-    } else {
+    } else { // 未翻開：顯示大題號
       // 未翻開：顯示大題號
       fill(this.isMarked ? 0 : 80);
       textAlign(CENTER, CENTER);
