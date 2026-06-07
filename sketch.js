@@ -1,73 +1,181 @@
 let cols = 4;
 let rows = 4;
 let cards = [];
-let cardW = 280; // 格子再寬一些
-let cardH = 130; // 高度也同步稍微增加
+let cardW = 280; // 格子寬度
+let cardH = 130; // 格子高度
 let spacingX = 50;
 let spacingY = 35;
 let startX, startY;
 
-let questions = [
-  "反社會型人格障礙症的英文簡稱是什麼？", 
-  "反社會人格的另一個常見別稱是什麼？（講出一個即可）", 
-  "這類患者通常是男生比較多，還是女生比較多？",
-  "醫生規定要到幾歲成年，才能被正式診斷為反社會型人格障礙症？",
-  "新聞上常形容反社會人格「冷血」，他們的主要行為特徵是什麼？",
-  "根據 DSM-5 診斷標準，自 15 歲起，個體必須在 7 項典型特徵中至少符合幾項？",
-  "在 15 歲之前，如果小孩子就表現出嚴重的虐待動物、偷竊、或校園欺凌，醫學上稱為什麼證據？",
-  "這群人做決定往往基於即時的衝動或刺激，完全不考慮負面後果，這在臨床上稱為什麼表現？",
-  "如果一個人的壞行為「只出現在思覺失調症（精神分裂）發作的時候」，醫生還能診斷他是反社會人格嗎？",
-  "鄭捷在犯案被抓到後，表現出什麼樣的驚人態度，最符合反社會人格的特徵？",
-  "研究發現，ASPD 患者的反社會行為，通常到了幾歲之後就會有所緩和？",
-  "鄭捷「隨機挑選無辜乘客，毫無憐憫」的殘酷行為，具體對應到反社會人格的三大核心特徵中的哪一項？",
-  "若因為一段關係已經出現失眠、焦慮或被操控感，簡報建議可以找哪些專業資源求助？",
-  "當身邊的人出現反社會特質並讓你感到威脅時，簡報指出最先要放在第一位的是什麼？",
-  "為了避免在人際相處中留下把柄，簡報建議與可能具反社會特質的人相處時，日常該怎麼做？",
-  "面對可能具有反社會傾向的人，為什麼簡報強烈反對去「拯救」或「感化」他們？"
+// 資料結構：包含 4 選項、正確答案標籤、問答題型
+let quizData = [
+  {
+    isMultipleChoice: false,
+    q: "反社會型人格障礙症的英文簡稱是什麼？",
+    options: [], 
+    correct: "VIEW", // 問答題點擊查看即可
+    a: "ASPD：其完整的英文醫學名稱為 Antisocial Personality Disorder。",
+    sa: "ASPD"
+  },
+  {
+    isMultipleChoice: false,
+    q: "反社會人格的另一個常見別稱是什麼？（講出一個即可）",
+    options: [],
+    correct: "VIEW",
+    a: "逆社會型人格障礙症 / 社會變態 / 心理變態。",
+    sa: "心理變態 / 社會變態"
+  },
+  {
+    isMultipleChoice: false,
+    q: "這類患者通常是男生比較多，還是女生比較多？",
+    options: [],
+    correct: "VIEW",
+    a: "男生 （簡報盛行率數據指出，男性的發生率遠高於女性）。",
+    sa: "男性較多"
+  },
+  {
+    isMultipleChoice: false,
+    q: "醫生規定要到幾歲，才能被正式診斷為反社會型人格障礙症？",
+    options: [],
+    correct: "VIEW",
+    a: "18 歲。根據 DSM-5 症狀與診斷標準，此疾病的正式診斷年齡規定為 18 歲以上（18+）。",
+    sa: "需年滿 18 歲"
+  },
+  {
+    isMultipleChoice: true,
+    q: "【選擇題】新聞上常形容反社會人格「冷血」，其最核心的行為特徵是什麼？",
+    options: [
+      "(A) 頻繁違反規範、侵犯他人權利",
+      "(B) 內心極度自卑而不敢社交",
+      "(C) 情緒過度誇張且喜歡引人注意",
+      "(D) 記憶力衰退並產生嚴重幻覺"
+    ],
+    correct: "A", // 正確答案
+    a: "正確答案為 (A) 頻繁違反規範、侵犯他人權利。\n\n【詳細解析】：簡報的正式定義指出，ASPD 的核心就在於「頻繁違反規範」與「侵犯他人權利」。這代表醫學上的冷血不是指他們外表冷酷或不愛社交，而是他們在具體行為上會不斷破壞法律或道德界線，甚至做出傷害他人、欺騙、不負責任等行為，卻毫不在意。",
+    sa: "選擇 (A) 違反規範與侵犯權利"
+  },
+  {
+    isMultipleChoice: false,
+    q: "根據 DSM-5 診斷標準，自 15 歲起，個體必須在 7 項典型特徵中至少符合幾項？",
+    options: [],
+    correct: "VIEW",
+    a: "DSM-5 手冊將反社會人格的表現歸納為 7 大特徵，臨床醫生在診斷時不需要患者 7 項完全具備，只要在長期觀察下「符合其中至少 3 項（含以上）」，即達到了診斷的量化門檻。",
+    sa: "符合至少 3 項"
+  },
+  {
+    isMultipleChoice: true,
+    q: "【選擇題】在 15 歲之前若有虐待動物、偷竊等嚴重行為，早年通常被稱什麼障礙？",
+    options: [
+      "(A) 品行障礙",
+      "(B) 注意力不足過動症",
+      "(C) 自閉症光譜障礙",
+      "(D) 學習障礙"
+    ],
+    correct: "A", // 正確答案
+    a: "正確答案為 (A) 品行障礙。\n\n【詳細解析】：簡報提到，反社會人格的行為問題通常始於早年的「品行障礙」。這在醫學診斷上是一個非常重要的早期指標，代表這類型的行為並非成年後突然發生，而是從童年或青少年時期（15歲前），就已經反覆出現不尊重他人權利、違反社會常理的嚴重行為問題。",
+    sa: "選擇 (A) 品行障礙"
+  },
+  {
+    isMultipleChoice: true,
+    q: "【選擇題】這群人做決定往往基於即時衝動，完全不考慮負面後果，臨床上稱什麼表現？",
+    options: [
+      "(A) 無法控制衝動（衝動性）",
+      "(B) 易激惹和攻擊性",
+      "(C) 強迫性檢查行為",
+      "(D) 社交退縮與冷漠"
+    ],
+    correct: "A", // 正確答案
+    a: "正確答案為 (A) 無法控制衝動（衝動性）。\n\n【詳細解析】：簡報的臨床特徵中明確提到「無法控制衝動」與「衝動性」。一般人做決定前會想一下後果，但他們行事盲目且缺乏事前規劃，完全被當下的即時刺激、情緒吸引，就算明知道事後要付出極大代價，在當下也無法踩煞車。",
+    sa: "選擇 (A) 無法控制衝動"
+  },
+  {
+    isMultipleChoice: true,
+    q: "【選擇題】根據簡報內容提供的數據，世界上大約有多少比例的人存在反社會型人格障礙症（ASPD）？",
+    options: [
+      "(A) 大約 4%",
+      "(B) 大約 30%",
+      "(C) 大約 75%",
+      "(D) 大約 0.01%"
+    ],
+    correct: "A", // 正確答案
+    a: "正確答案為 (A) 大約 4%。\n\n【詳細解析】：雖然正式的臨床評估診斷率大約在 0.05% 至 4% 之間，但簡報特別標註「世界上約有 4% 的人存在」此類人格特質。這代表反社會人格並不是像電影演的那麼罕見，在日常生活中，大約每 25 個人之中就有 1 個人可能具備這種潛在的特質，只是嚴重程度不同。",
+    sa: "選擇 (A) 大約 4%"
+  },
+  {
+    isMultipleChoice: false,
+    q: "鄭捷在犯案被抓到後，表現出什麼樣的驚人態度，最符合反社會人格的特徵？",
+    options: [],
+    correct: "VIEW",
+    a: "捕後表現出「極度冷漠」，毫無驚慌與歉意，彷彿只是做件微不足道的事。完全體現了 ASPD 核心病理中「冷酷、缺乏同理、缺乏悔意」的特徵。",
+    sa: "極度冷漠、毫無驚慌與歉意"
+  },
+  {
+    isMultipleChoice: true,
+    q: "【選擇題】研究與簡報資料發現，ASPD 患者的外顯與暴力反社會行為，通常在到了幾歲之後會逐漸有所「緩和」？",
+    options: [
+      "(A) 30 歲或 40 歲之後",
+      "(B) 20 幾歲剛成年時",
+      "(C) 12 歲兒童青春期前",
+      "(D) 終生完全不會有任何改變"
+    ],
+    correct: "A", // 正確答案
+    a: "正確答案為 (A) 30 歲或 40 歲之後。\n\n【詳細解析】：簡報指出「中年後緩和」的現象。研究顯示，患者在青少年到剛成年（18-30歲）時的行為是最極端、最衝動的；但到了 30 歲或 40 歲之後，可能因為大腦控制區域發育更完全，或是體力、荷爾蒙的改變，他們那些外顯的打架、違法或暴力衝動行為，通常會逐漸變得比較沒那麼激烈。",
+    sa: "選擇 (A) 30 - 40 歲後緩和"
+  },
+  {
+    isMultipleChoice: false,
+    q: "鄭捷「隨機挑選無辜乘客，毫無憐憫」的殘酷行為，具體對應到反社會人格的三大核心特徵中的哪一項？",
+    options: [],
+    correct: "VIEW",
+    a: "鄭捷在捷運車廂內犯案時，面對完全不認識、沒有任何仇恨的無辜大眾，依然能痛下殺手且毫無憐憫，這正是「缺乏同理心」在現實犯罪中最極端的體現。",
+    sa: "缺乏同理心"
+  },
+  {
+    isMultipleChoice: false,
+    q: "若因為一段關係已經出現失眠、焦慮或被操控感，簡報建議可以找哪些專業資源求助？",
+    options: [],
+    correct: "VIEW",
+    a: "當單靠個人無法應對人際壓力，且已經影響到身心健康時，簡報指出主動尋求心理師、社工、家人，或通報學校輔導室、職場相關資源介入才是正確的解決路徑。",
+    sa: "心理師、社工、學校或職場資源"
+  },
+  {
+    isMultipleChoice: false,
+    q: "當身邊的人出現反社會特質並讓你感到威脅時，簡報指出最先要放在第一位的是什麼？",
+    options: [],
+    correct: "VIEW",
+    a: "簡報強調「先看安全」。如果對方出現威脅、控制、騷擾、暴力或跟蹤，必須先把人身安全放第一，並盡快尋求警方、可信任的人或社區資源協助。",
+    sa: "人身安全"
+  },
+  {
+    isMultipleChoice: false,
+    q: "為了避免在人際相處中留下把柄，簡報建議與可能具反社會特質的人相處時，日常該怎麼做？",
+    options: [],
+    correct: "VIEW",
+    a: "相處原則為「少講私事，少交出把柄，重要事情盡量留紀錄」。日常可以把最近發生的對話、日期或訊息截圖記錄下來作為自我保護。",
+    sa: "少講私事，重要事情留紀錄"
+  },
+  {
+    isMultipleChoice: false,
+    q: "面對可能具有反社會傾向的人，為什麼簡報強烈反對去「拯救」或「感化」他們？",
+    options: [],
+    correct: "VIEW",
+    a: "因為簡報明確指出「這通常會把自己拖進去」。真正的診斷需要專業評估，一般人缺乏專業能力，若盲目替對方收拾後果或試圖感化對方，反而容易讓自己陷入高風險的心理與人身安全泥淖中。",
+    sa: "因為這通常會把自己拖進去"
+  }
 ];
 
-let answers = [
-  "ASPD：  其完整的英文醫學名稱為 Antisocial Personality Disorder",
-  "逆社會型人格障礙症 / 社會變態 / 心理變態",
-  "男生  （男性發生率遠高於女性）",
-  "18 歲  「此診斷必須年滿 18 歲」。因為兒童與青少年的大腦、個性和道德認知還處於發育階段，行為可能受到叛逆期或環境的暫時影響",
-  "它是一種「以頻繁違反社會行為規範、藐視並侵犯他人權利」為主要特徵的人格障礙症。這意味著他們的「冷血」不是單純指心情冷淡，而是表現在具體去破壞社會規則、並造成他人身體或權益實質受損的長期行為模式。",
-  "DSM-5 手冊將反社會人格的表現歸納為 7 大特徵（包括說謊、衝動、不負責任、缺乏悔意等），臨床醫生在診斷時，不需要患者 7 項完全具備，只要在長期觀察下「符合其中至少 3 項（含以上）」，即達到了診斷的量化門檻。",
-  "「品行障礙」。  這是診斷 ASPD 的必要條件之一，必須有證據顯示個體在 15 歲之前就已經出現長期、反覆違反他人基本權利或社會規範的嚴重行為問題",
-  "脫抑制（Disinhibition）  這指的是個體缺乏事前規劃與自我克制的能力，高度依賴即時的衝動、當下的情感或外界刺激來做出應對，明知道事後會有嚴重的懲罰或負面後果也無法踩煞車。",
-  "「排除條款」：反社會行為「並非僅出現在思覺失調症或雙相障礙的發作期中」。因為思覺失調症發作時，患者可能因為幻聽或妄想（例如以為別人在害他）才做出攻擊行為，這屬於精神病症狀，而不是他本身根深蒂固的「反社會人格特質」",
-  "極度冷漠，毫無驚慌與歉意。   完全體現了 ASPD 核心病理中「冷酷、缺乏同理、缺乏懊悔」的特徵。",
-  "30 歲或 40 歲之後（中年之後）。   大腦可能更為成熟，或體力與荷爾蒙改變，其外顯的、暴力的反社會行為通常會逐漸有所「緩和」。",
-  "鄭捷在捷運車廂內犯案時，面對完全不認識、沒有任何仇恨的無辜大眾，依然能痛下殺手且毫無憐憫，這正是「缺乏同理心」在現實犯罪中最極端的體現。",
-  "當單靠個人無法應對人際壓力，且已經影響到身心健康時，簡報指出通報學校輔導室 或主動尋求心理、社工等專業介入才是正確的解決路徑。",
-  "簡報強調「先看安全」。如果對方出現威脅、暴力或跟蹤，必須先把自身安全放第一，並盡快尋求警方、成人或社區資源協助。",
-  "對方的言語可能充滿操控性，因此簡報建議少透露私生活，並把最近發生的對話、日期或截圖記錄下來作為自我保護。",
-  "真正的診斷需要專業評估，一般人缺乏專業能力，若盲目替對方收拾後果或試圖改變對方，反而容易讓自己陷入高風險的心理泥淖中。"
-];
+// 儲存洗牌後的對應欄位
+let questions = [];
+let answers = [];
+let shortAnswers = [];
+let isChoiceQuestion = [];
+let quizOptions = [];
+let correctAnswers = [];
 
-let shortAnswers = [
-  "ASPD",
-  "心理變態 / 社會變態",
-  "男性較多",
-  "需年滿 18 歲",
-  "藐視並侵犯他人權利",
-  "符合至少 3 項",
-  "品行障礙 (CD)",
-  "脫抑制 (Disinhibition)",
-  "排除思覺失調發作",
-  "冷漠、缺乏同理與悔意",
-  "30 - 40 歲後緩和",
-  "缺乏同理心",
-  "心理師、社工、學校輔導室或職場資源。",
-  "人身安全。",
-  "少講私事，重要事情盡量留紀錄。",
-  "因為這通常會把自己拖進去。"
-];
-
-// 視窗狀態：null | 'question' | 'analysis'
+// 視窗狀態：null | 'question' | 'wrong_feedback' | 'analysis'
 let popupState = null;
 let popupCard = null;
-let userAnswer = null;
+let selectedWrongOption = ""; // 紀錄點錯的選項內容
 
 const LINES = [
   [0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15],
@@ -86,7 +194,7 @@ let closeBtnH = 36;
 let people = [
   "第一組","第二組","第三組","第四組","第五組","第六組","第七組",
   "第八組","第九組","第十組","第十一組","第十二組","第十三組","第十四組"
-].filter(p => p !== "第十組"); // 排除第十組
+].filter(p => p !== "第十組"); 
 let peoplePool = [];
 let drawnPeople = [];
 let showPersonPopup = false;
@@ -99,21 +207,25 @@ let personBtnX, personBtnY;
 let personBtnW = 100;
 let personBtnH = 36;
 
+// 4行按鈕垂直排版設定
+let choiceBtnW = 480; 
+let choiceBtnH = 38;
+let choiceBtnSpacing = 12;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textFont('sans-serif');
 
-  // 隨機打亂題目與答案的順序，同時保持兩者對應關係
-  let combined = [];
-  for (let i = 0; i < questions.length; i++) {
-    combined.push({ q: questions[i], a: answers[i], sa: shortAnswers[i] });
-  }
-  shuffle(combined, true); // 使用 p5.js 內建函數隨機打亂
+  // 洗牌打亂題目
+  shuffle(quizData, true);
 
-  for (let i = 0; i < questions.length; i++) {
-    questions[i] = combined[i].q;
-    answers[i] = combined[i].a;
-    shortAnswers[i] = combined[i].sa;
+  for (let i = 0; i < quizData.length; i++) {
+    questions.push(quizData[i].q);
+    answers.push(quizData[i].a);
+    shortAnswers.push(quizData[i].sa);
+    isChoiceQuestion.push(quizData[i].isMultipleChoice);
+    quizOptions.push(quizData[i].options);
+    correctAnswers.push(quizData[i].correct);
   }
 
   let totalWidth  = cols * cardW + (cols - 1) * spacingX;
@@ -133,7 +245,7 @@ function setup() {
     for (let j = 0; j < cols; j++) {
       let x = startX + j * (cardW + spacingX);
       let y = startY + i * (cardH + spacingY);
-      cards.push(new Card(x, y, cardW, cardH, questions[i * cols + j], i * cols + j));
+      cards.push(new Card(x, y, cardW, cardH, questions[i * rows + j], i * rows + j));
     }
   }
 }
@@ -150,13 +262,13 @@ function draw() {
   text("賓果遊戲", width / 2, 22);
   textStyle(NORMAL);
 
-  // 狀態列
-  let flippedCount = cards.filter(c => c.isFlipped).length;
+  // 狀態
+  let flippedCount = cards.filter(c => c.isMarked).length;
   textSize(13);
   fill(160);
-  text(`已翻開 ${flippedCount} / 16　|　BINGO ${bingoLines} 條`, width / 2, 50);
+  text(`已翻開答對 ${flippedCount} / 16 | BINGO ${bingoLines} 條`, width / 2, 50);
 
-  // BINGO 提示條
+  // 連線條提示
   if (bingoLines > 0) {
     fill(255);
     noStroke();
@@ -176,19 +288,13 @@ function draw() {
     card.display();
   }
 
-  // 左下關閉按鈕
   drawCloseButton();
-
-  // 右下抽人按鈕
   drawPersonButton();
 
-  // 題目視窗
+  // 彈出視窗階層判斷
   if (popupState === 'question') drawQuestionPopup();
-
-  // 解析視窗
+  if (popupState === 'wrong_feedback') drawWrongFeedbackPopup();
   if (popupState === 'analysis') drawAnalysisPopup();
-
-  // 抽人視窗
   if (showPersonPopup) drawPersonPopup();
 
   // 抽人動畫
@@ -208,46 +314,75 @@ function draw() {
 }
 
 function mousePressed() {
+  // 1. 錯誤回答回饋視窗點擊 -> 回到題目狀態（不扣分、可重選）
+  if (popupState === 'wrong_feedback') {
+    let btnX = width / 2 - 70;
+    let btnY = height / 2 + 60;
+    if (mouseX > btnX && mouseX < btnX + 140 && mouseY > btnY && mouseY < btnY + 45) {
+      popupState = 'question'; // 關鍵：回到原本題目狀態
+    }
+    return;
+  }
 
-  // 解析視窗優先
+  // 2. 正確解析視窗點擊 -> 關閉並鎖定卡片
   if (popupState === 'analysis') {
     let btnX = width / 2 - 70;
-    let btnY = height / 2 + 140;
+    let btnY = height / 2 + 155;
     if (mouseX > btnX && mouseX < btnX + 140 && mouseY > btnY && mouseY < btnY + 45) {
       if (popupCard) {
-        popupCard.showAnalysis = true; // 關閉解析後，標記此卡片以後要顯示解析
+        popupCard.showAnalysis = true; 
+        popupCard.isMarked = true; // 只有這時候才算真正答對標記
+        updateBingo();
       }
       popupState = null;
       popupCard = null;
-      userAnswer = null;
     }
     return;
   }
 
-  // 題目視窗優先
+  // 3. 題目視窗點擊 (核心邏輯：判斷對錯)
   if (popupState === 'question') {
-    let popW = 600;
-    let popH = 400;
+    let idx = popupCard.index;
+    let isChoice = isChoiceQuestion[idx];
+    let correctAns = correctAnswers[idx];
 
-    let correctBtnX = width / 2 - 140;
-    let correctBtnY = height / 2 + 110;
-    if (mouseX > correctBtnX && mouseX < correctBtnX + 120 && mouseY > correctBtnY && mouseY < correctBtnY + 45) {
-      userAnswer = 'correct';
-      popupState = 'analysis';
-      return;
+    if (isChoice) {
+      let startBtnY = height / 2 - 10; 
+      let labels = ['A', 'B', 'C', 'D'];
+      let btnX = width / 2 - choiceBtnW / 2;
+
+      for (let i = 0; i < 4; i++) {
+        let currentY = startBtnY + i * (choiceBtnH + choiceBtnSpacing);
+        if (mouseX > btnX && mouseX < btnX + choiceBtnW && mouseY > currentY && mouseY < currentY + choiceBtnH) {
+          if (labels[i] === correctAns) {
+            // 答對了！進入詳細解析
+            popupState = 'analysis';
+          } else {
+            // 答錯了！跳出提示，之後可再回原題
+            selectedWrongOption = quizOptions[idx][i];
+            popupState = 'wrong_feedback';
+          }
+          return;
+        }
+      }
+    } else {
+      // 問答題按紐點擊直接通過
+      let btnX = width / 2 - 200 / 2;
+      let btnY = height / 2 + 80;
+      if (mouseX > btnX && mouseX < btnX + 200 && mouseY > btnY && mouseY < btnY + 45) {
+        popupState = 'analysis';
+        return;
+      }
     }
 
-    let wrongBtnX = width / 2 + 20;
-    let wrongBtnY = height / 2 + 110;
-    if (mouseX > wrongBtnX && mouseX < wrongBtnX + 120 && mouseY > wrongBtnY && mouseY < wrongBtnY + 45) {
-      userAnswer = 'wrong';
-      popupState = 'analysis';
-      return;
-    }
-
-    let closeX = width / 2 + popW / 2 - 20;
-    let closeY = height / 2 - popH / 2 + 20;
+    // 右上角 X 關閉
+    let popW = 660;
+    let popH = 430;
+    let closeX = width / 2 + popW / 2 - 24;
+    let closeY = height / 2 - popH / 2 + 24;
     if (dist(mouseX, mouseY, closeX, closeY) < 18) {
+      // 如果還沒答對就按關閉，將卡片恢復成未翻開狀態
+      popupCard.isFlipped = false;
       popupState = null;
       popupCard = null;
       return;
@@ -255,7 +390,7 @@ function mousePressed() {
     return;
   }
 
-  // 抽人視窗優先
+  // 4. 抽人視窗點擊
   if (showPersonPopup) {
     let btnY = height / 2 + 60;
     if (!isDrawingPerson && mouseX > width / 2 - 60 && mouseX < width / 2 + 60 &&
@@ -273,7 +408,7 @@ function mousePressed() {
     return;
   }
 
-  // 抽人按鈕
+  // 5. 右下按鈕
   if (mouseX > personBtnX - personBtnW / 2 && mouseX < personBtnX + personBtnW / 2 &&
       mouseY > personBtnY - personBtnH / 2 && mouseY < personBtnY + personBtnH / 2) {
     showPersonPopup = true;
@@ -281,28 +416,29 @@ function mousePressed() {
     return;
   }
 
-  // 關閉遊戲按鈕
+  // 6. 左下按鈕
   if (mouseX > closeBtnX - closeBtnW / 2 && mouseX < closeBtnX + closeBtnW / 2 &&
       mouseY > closeBtnY - closeBtnH / 2 && mouseY < closeBtnY + closeBtnH / 2) {
     window.close();
     return;
   }
 
-  // 卡片點擊
+  // 7. 卡片點擊
   for (let card of cards) {
     if (card.isClicked(mouseX, mouseY)) {
-      if (!card.isFlipped) { // 如果卡片未翻開
+      if (!card.isMarked && !card.isFlipped) { 
+        // 點擊未作答的格子 -> 翻開並強制點開視窗答題
         card.flip();
-        card.isMarked = true; // 翻開即標記為已完成 (計算 BINGO)
-        updateBingo();
-      } else if (!card.showAnalysis) { 
-        // 如果卡片已翻開但還沒看過解析，第二次點擊顯示放大題目視窗
         popupCard = card;
         popupState = 'question';
-      } else { 
-        // 如果已經看過解析了，之後點擊則直接顯示解析視窗
+      } else if (card.isMarked) { 
+        // 已經答對通關的格子 -> 之後點擊直接看解析
         popupCard = card;
         popupState = 'analysis';
+      } else if (card.isFlipped && !card.isMarked) {
+        // 已翻開但先前沒答對（可能有關閉過）-> 重新開啟答題
+        popupCard = card;
+        popupState = 'question';
       }
       break;
     }
@@ -323,17 +459,16 @@ function updateBingo() {
 // ── 題目放大視窗 ──────────────────────────────
 function drawQuestionPopup() {
   push();
-  fill(0, 0, 0, 190);
+  fill(0, 0, 0, 195);
   noStroke();
   rectMode(CORNER);
   rect(0, 0, width, height);
 
-  let popW = 600;
-  let popH = 400;
+  let popW = 660; 
+  let popH = 430; 
   let px = width / 2 - popW / 2;
   let py = height / 2 - popH / 2;
 
-  // 視窗本體：深灰底 + 白色細邊框
   fill(18, 18, 18);
   stroke(255);
   strokeWeight(1);
@@ -342,60 +477,83 @@ function drawQuestionPopup() {
   // 題號標籤
   noStroke();
   fill(255);
-  rect(px + 20, py + 20, 60, 24, 6);
+  rect(px + 24, py + 24, 60, 24, 6);
   fill(0);
   textAlign(CENTER, CENTER);
   textSize(12);
   textStyle(BOLD);
-  text(`題目 ${popupCard.index + 1}`, px + 50, py + 32);
+  text(`題目 ${popupCard.index + 1}`, px + 54, py + 36);
   textStyle(NORMAL);
 
-  // 題目文字
+  let idx = popupCard.index;
+  let isChoice = isChoiceQuestion[idx];
+
+  // 顯示題目文字
   fill(240);
-  textAlign(CENTER, CENTER);
-  textSize(30); // 題目視窗字體放大
+  textAlign(CENTER, TOP);
+  textSize(20); 
   textStyle(BOLD);
   textWrap(CHAR);
-  text(popupCard.content, px + 40, py + 50, popW - 80, popH - 150);
+  let textY = isChoice ? (py + 65) : (py + 130);
+  text(popupCard.content, px + 40, textY, popW - 80, 100);
   textStyle(NORMAL);
 
-  // 說明文字
-  fill(120);
-  textSize(13);
-  textWrap(CHAR);
-  text("請選擇你的答案", width / 2, height / 2 + 85);
+  if (isChoice) {
+    // 選擇題：垂直畫出 4 行可點選選項按鈕
+    let startBtnY = height / 2 - 10; 
+    let btnX = width / 2 - choiceBtnW / 2;
+    let opts = quizOptions[idx];
 
-  // 正確按鈕：白底黑字
-  let correctBtnX = width / 2 - 140;
-  let correctBtnY = height / 2 + 110;
-  fill(255);
-  noStroke();
-  rect(correctBtnX, correctBtnY, 120, 45, 8);
-  fill(0);
-  textSize(16);
-  textStyle(BOLD);
-  text("✓ 正確", correctBtnX + 60, correctBtnY + 22.5);
+    for (let i = 0; i < 4; i++) {
+      let currentY = startBtnY + i * (choiceBtnH + choiceBtnSpacing);
 
-  // 錯誤按鈕：黑底白邊白字
-  let wrongBtnX = width / 2 + 20;
-  let wrongBtnY = height / 2 + 110;
-  fill(30);
-  stroke(200);
-  strokeWeight(1);
-  rect(wrongBtnX, wrongBtnY, 120, 45, 8);
-  fill(220);
-  noStroke();
-  textSize(16);
-  text("✗ 錯誤", wrongBtnX + 60, wrongBtnY + 22.5);
-  textStyle(NORMAL);
+      // 設定滑鼠懸停變色效果，增強「可以點選」的視覺感
+      let isHover = (mouseX > btnX && mouseX < btnX + choiceBtnW && mouseY > currentY && mouseY < currentY + choiceBtnH);
+      
+      if (isHover) {
+        fill(255, 255, 200);
+        stroke(255);
+      } else {
+        fill(25);
+        stroke(120);
+      }
+      strokeWeight(1);
+      rect(btnX, currentY, choiceBtnW, choiceBtnH, 6);
+      noStroke();
 
-  // 右上角關閉
-  let closeX = px + popW - 20;
-  let closeY = py + 20;
-  fill(60);
+      fill(isHover ? 0 : 230);
+      textAlign(LEFT, CENTER);
+      textSize(14);
+      textStyle(BOLD);
+      text(opts[i], btnX + 20, currentY + choiceBtnH / 2);
+      textStyle(NORMAL);
+    }
+  } else {
+    // 簡答問答題：正中央單一按鈕
+    let btnW = 220;
+    let btnH = 45;
+    let btnX = width / 2 - btnW / 2;
+    let btnY = height / 2 + 80;
+
+    let isHover = (mouseX > btnX && mouseX < btnX + btnW && mouseY > btnY && mouseY < btnY + btnH);
+    fill(isHover ? 200 : 255);
+    noStroke();
+    rect(btnX, btnY, btnW, btnH, 8);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(15);
+    textStyle(BOLD);
+    text("查看解答與詳細解析 ➔", width / 2, btnY + btnH / 2);
+    textStyle(NORMAL);
+  }
+
+  // 右上角 X 關閉
+  let closeX = px + popW - 24;
+  let closeY = py + 24;
+  fill(50);
   noStroke();
   ellipse(closeX, closeY, 26);
-  fill(200);
+  fill(220);
   textSize(13);
   textStyle(BOLD);
   text("✕", closeX, closeY - 1);
@@ -404,16 +562,59 @@ function drawQuestionPopup() {
   pop();
 }
 
-// ── 解析視窗 ──────────────────────────────────
-function drawAnalysisPopup() {
+// ── 答錯提示視窗（精髓：關閉後回到原題狀態） ─────────────────
+function drawWrongFeedbackPopup() {
   push();
-  fill(0, 0, 0, 200);
+  fill(0, 0, 0, 150); // 略透明的疊加層
   noStroke();
   rectMode(CORNER);
   rect(0, 0, width, height);
 
-  let popW = 600;
-  let popH = 450;
+  let w = 460;
+  let h = 220;
+  fill(24, 10, 10); // 暗紅色系底框
+  stroke(255, 100, 100); // 鮮紅警告邊框
+  strokeWeight(2);
+  rectMode(CENTER);
+  rect(width / 2, height / 2, w, h, 12);
+
+  noStroke();
+  fill(255, 120, 120);
+  textAlign(CENTER, CENTER);
+  textSize(22);
+  textStyle(BOLD);
+  text("✗ 答案不正確哦！", width / 2, height / 2 - 40);
+
+  fill(180);
+  textSize(14);
+  textStyle(NORMAL);
+  textWrap(CHAR);
+  text(`同學選擇了：${selectedWrongOption}`, width / 2, height / 2, w - 40);
+
+  // 回到題目按鈕
+  let btnX = width / 2;
+  let btnY = height / 2 + 60;
+  let isHover = (mouseX > btnX - 70 && mouseX < btnX + 70 && mouseY > btnY - 22.5 && mouseY < btnY + 22.5);
+  fill(isHover ? 200 : 255);
+  rect(btnX, btnY, 140, 45, 6);
+  fill(0);
+  textSize(15);
+  textStyle(BOLD);
+  text("重新挑戰", btnX, btnY);
+  
+  pop();
+}
+
+// ── 解析視窗（只有答對時才會看到） ──────────────────────────────
+function drawAnalysisPopup() {
+  push();
+  fill(0, 0, 0, 205);
+  noStroke();
+  rectMode(CORNER);
+  rect(0, 0, width, height);
+
+  let popW = 660;
+  let popH = 470;
   let px = width / 2 - popW / 2;
   let py = height / 2 - popH / 2;
 
@@ -422,61 +623,55 @@ function drawAnalysisPopup() {
   strokeWeight(1);
   rect(px, py, popW, popH, 16);
 
-  // 頂部色條：正確白色、錯誤深灰
-  let isCorrect = userAnswer === 'correct';
-  fill(isCorrect ? 255 : 50);
+  // 頂部綠色成功橫條
+  fill(80, 180, 100);
   noStroke();
   rect(px, py, popW, 50, 16, 16, 0, 0);
 
-  // 結果標題
-  fill(isCorrect ? 0 : 220);
+  fill(255);
   textAlign(CENTER, CENTER);
-  textSize(17);
+  textSize(18);
   textStyle(BOLD);
-  text(isCorrect ? "✓ 你選擇了「正確」" : "✗ 你選擇了「錯誤」", width / 2, py + 25);
+  text("✓ 恭喜答對！解鎖詳細解析", width / 2, py + 25);
   textStyle(NORMAL);
 
-  // 「解析」小標題
   fill(160);
   textSize(13);
-  text("解　析", width / 2, py + 78);
+  text("解 析", width / 2, py + 78);
 
-  // 分隔線
   stroke(60);
   strokeWeight(1);
   line(px + 30, py + 90, px + popW - 30, py + 90);
 
-  // 1. 簡短答案 (放大顯示重點)
+  // 1. 重點核心簡答
   noStroke();
-  fill(255, 255, 150); // 使用亮黃色突顯關鍵字
+  fill(255, 255, 140); 
   textAlign(CENTER, TOP);
-  textSize(32);        // 稍微縮小字體以預留換行空間
+  textSize(24);        
   textStyle(BOLD);
   textWrap(CHAR);
-  // 顯示簡短解析
   text(shortAnswers[popupCard.index], px + 40, py + 105, popW - 80);
   textStyle(NORMAL);
 
-  // 2. 詳細解析內容 (在下面做進一步解釋)
-  fill(220);           // 淺灰色
-  textSize(18);        // 微調解釋字體大小
+  // 2. 詳細完整解析內容
+  fill(215);           
+  textSize(15);        
   textAlign(CENTER, TOP);
   textWrap(CHAR);
-  // 下移起始位置至 215，避免與上方的簡答重疊
-  text(answers[popupCard.index], px + 50, py + 215, popW - 100, popH - 310);
+  text(answers[popupCard.index], px + 50, py + 185, popW - 100, popH - 265);
 
-  // 關閉按鈕
+  // 下方關閉
   let btnX = width / 2 - 70;
-  let btnY = height / 2 + 140;
-  fill(255);
-  noStroke();
+  let btnY = height / 2 + 155;
+  let isHover = (mouseX > btnX && mouseX < btnX + 140 && mouseY > btnY && mouseY < btnY + 45);
+  fill(isHover ? 200 : 255);
   rectMode(CORNER);
   rect(btnX, btnY, 140, 45, 8);
   fill(0);
   textAlign(CENTER, CENTER);
   textSize(16);
   textStyle(BOLD);
-  text("關閉", width / 2, btnY + 22.5);
+  text("關閉卡片", width / 2, btnY + 22.5);
   textStyle(NORMAL);
 
   pop();
@@ -503,18 +698,15 @@ function drawPersonPopup() {
   textStyle(BOLD);
   text("誰是幸運兒？", width / 2, height / 2 - 100);
 
-  // 名字顯示
   fill(isDrawingPerson ? 180 : 255);
   textSize(50);
   text(currentPersonName, width / 2, height / 2 - 10);
 
-  // 底部提示
   fill(100);
   textSize(13);
   textStyle(NORMAL);
-  text(`已抽出: ${drawnPeople.length} 人　名單剩餘: ${peoplePool.length}`, width / 2, height / 2 + 110);
+  text(`已抽出: ${drawnPeople.length} 人 名單剩餘: ${peoplePool.length}`, width / 2, height / 2 + 110);
 
-  // 開始抽人按鈕
   let btnY = height / 2 + 60;
   if (isDrawingPerson) {
     fill(50);
@@ -535,7 +727,6 @@ function drawPersonPopup() {
     text("開始抽人", width / 2, btnY);
   }
 
-  // 關閉按鈕
   let closeX = width / 2 + 180;
   let closeY = height / 2 - 130;
   fill(40);
@@ -551,7 +742,7 @@ function drawPersonPopup() {
   pop();
 }
 
-// ── 抽人按鈕 ──────────────────────────────────
+// ── 右下抽籤按鈕 ──────────────────────────────
 function drawPersonButton() {
   push();
   rectMode(CENTER);
@@ -569,7 +760,7 @@ function drawPersonButton() {
   pop();
 }
 
-// ── 關閉遊戲按鈕 ──────────────────────────────
+// ── 左下關閉按鈕 ──────────────────────────────
 function drawCloseButton() {
   push();
   rectMode(CENTER);
@@ -597,7 +788,7 @@ class Card {
     this.content = content;
     this.index = index;
     this.isFlipped = false;
-    this.showAnalysis = false; // 新增：是否已看過解析
+    this.showAnalysis = false; 
     this.isMarked = false;
     this.hovered = false;
   }
@@ -609,19 +800,15 @@ class Card {
 
     push();
 
-    // 背景與邊框
     if (this.isMarked) {
-      // 已標記：亮黃色底 (若連成 BINGO 則為純白)
       fill(isBingo ? 255 : color(255, 255, 200)); 
       stroke(255);
       strokeWeight(isBingo ? 3 : 2);
     } else if (this.isFlipped) {
-      // 翻開未抽中：深灰底白邊
       fill(28);
       stroke(this.hovered ? 255 : 100);
       strokeWeight(this.hovered ? 1.5 : 1);
     } else {
-      // 未翻開：近黑底，hover 時邊框變亮
       fill(this.hovered ? 35 : 15);
       stroke(this.hovered ? 200 : 55);
       strokeWeight(this.hovered ? 1.5 : 1);
@@ -629,7 +816,7 @@ class Card {
     rect(this.x, this.y, this.w, this.h, 10);
     noStroke();
 
-    // 左上角題號小標籤
+    // 題號小標籤
     fill(this.isMarked ? 0 : 50);
     rect(this.x + 8, this.y + 8, 24, 18, 4);
     fill(this.isMarked ? 0 : 180);
@@ -640,7 +827,6 @@ class Card {
     textStyle(NORMAL);
 
     if (this.isFlipped) {
-      // 顯示題號 (作為抽到的數字)
       fill(this.isMarked ? 0 : 80);
       textAlign(CENTER, CENTER);
       textSize(36);
@@ -648,31 +834,25 @@ class Card {
       text(this.index + 1, this.x + this.w / 2, this.y + this.h / 2 - 20);
       textStyle(NORMAL);
 
-      // 顯示文字內容：若看過解析則顯示簡短答案，否則顯示題目
-      let displayBody = this.showAnalysis ? shortAnswers[this.index] : this.content;
-      fill(this.isMarked ? 0 : 210);
+      let displayBody = this.isMarked ? shortAnswers[this.index] : "點選看題目...";
+      fill(this.isMarked ? 0 : 150);
       textAlign(CENTER, TOP);
-      textSize(this.showAnalysis ? 18 : 14); // 簡短解析可以用大一點的字，題目用 14
+      textSize(this.isMarked ? 15 : 12); 
       textWrap(CHAR);
       text(displayBody, this.x + 12, this.y + this.h / 2 + 5, this.w - 24, this.h / 2 - 10);
       textStyle(NORMAL);
 
-      // 移除右下「點擊查看」提示，因為翻開即已標記並顯示解析
-
-      // BINGO 標籤
-      if (isBingo) { // 只要是 BINGO 線上的卡片就顯示
+      if (isBingo) { 
         fill(255);
         rect(this.x + 8, this.y + this.h - 22, 44, 16, 4);
         fill(0);
         textSize(10);
         text("BINGO", this.x + 30, this.y + this.h - 14);
       }
-
-    } else { // 未翻開：顯示大題號
-      // 未翻開：顯示大題號
+    } else { 
       fill(this.isMarked ? 0 : 80);
       textAlign(CENTER, CENTER);
-      textSize(48); // 未翻開的大數字放大
+      textSize(48); 
       textStyle(BOLD);
       text(this.index + 1, this.x + this.w / 2, this.y + this.h / 2);
       textStyle(NORMAL);
