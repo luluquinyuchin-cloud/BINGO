@@ -207,10 +207,22 @@ let personBtnX, personBtnY;
 let personBtnW = 100;
 let personBtnH = 36;
 
+// 音樂播放器相關設定
+let bgMusic;
+let isMusicPlaying = false;
+let musicVolume = 0.3; // 這裡可以調整音量大小 (0.0 到 1.0)
+let musicBtnSize = 42;
+
 // 4行按鈕垂直排版設定
 let choiceBtnW = 480; 
 let choiceBtnH = 38;
 let choiceBtnSpacing = 12;
+
+function preload() {
+  // 載入音樂檔案，請確保檔案名稱與副檔名正確
+  // 由於瀏覽器政策，音樂會在玩家第一次點擊畫面的任何地方後自動開始播放
+  bgMusic = loadSound('Disfigure - Blank _ Melodic Dubstep _ NCS - Copyright Free Music.mp3');
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -290,6 +302,7 @@ function draw() {
 
   drawCloseButton();
   drawPersonButton();
+  drawMusicButton();
 
   // 彈出視窗階層判斷
   if (popupState === 'question') drawQuestionPopup();
@@ -314,6 +327,24 @@ function draw() {
 }
 
 function mousePressed() {
+  // 啟動音訊上下文（處理瀏覽器自動播放限制）
+  if (getAudioContext().state !== 'running') {
+    userStartAudio();
+    bgMusic.setVolume(musicVolume); // 設定音量
+    if (bgMusic && bgMusic.isLoaded() && !isMusicPlaying) {
+      bgMusic.loop();
+      isMusicPlaying = true;
+    }
+  }
+
+  // 0. 音樂播放按鈕點擊偵測 (右上角固定位置)
+  let mX = width - 50;
+  let mY = 50;
+  if (dist(mouseX, mouseY, mX, mY) < musicBtnSize / 2) {
+    toggleMusic();
+    return;
+  }
+
   // 1. 錯誤回答回饋視窗點擊 -> 回到題目狀態（不扣分、可重選）
   if (popupState === 'wrong_feedback') {
     let btnX = width / 2 - 70;
@@ -739,6 +770,47 @@ function drawPersonPopup() {
   textStyle(BOLD);
   text("✕", closeX, closeY);
 
+  pop();
+}
+
+// ── 音樂控制與按鈕繪製 ──────────────────────────────
+function toggleMusic() {
+  if (bgMusic && bgMusic.isLoaded()) {
+    bgMusic.setVolume(musicVolume); // 確保播放前音量正確
+    if (isMusicPlaying) {
+      bgMusic.pause();
+      isMusicPlaying = false;
+    } else {
+      bgMusic.loop();
+      isMusicPlaying = true;
+    }
+  }
+}
+
+function drawMusicButton() {
+  push();
+  let mX = width - 50;
+  let mY = 50;
+  let isHover = dist(mouseX, mouseY, mX, mY) < musicBtnSize / 2;
+  
+  // 繪製按鈕背景
+  stroke(255);
+  strokeWeight(2);
+  fill(isHover ? 60 : 30);
+  ellipse(mX, mY, musicBtnSize);
+  
+  // 繪製播放或暫停圖示
+  noStroke();
+  fill(255);
+  if (isMusicPlaying) {
+    // 播放中：顯示暫停符號 ⏸
+    rectMode(CENTER);
+    rect(mX - 5, mY, 4, 16, 2);
+    rect(mX + 5, mY, 4, 16, 2);
+  } else {
+    // 暫停中：顯示播放符號 ▶
+    triangle(mX - 4, mY - 9, mX - 4, mY + 9, mX + 9, mY);
+  }
   pop();
 }
 
